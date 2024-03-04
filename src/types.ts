@@ -1,5 +1,24 @@
-export enum TaskStatuses {
-  New = 0,
-  InProgress = 1,
-  Completed = 2,
+export interface Todos {
+  todos: Task[]
+}
+
+export interface Task {
+  id: number
+  title: string
+  completed: boolean
+}
+
+export enum ErrorType {
+  EMPTY_TITLE = 'Title can\'t be empty',
+  ADD = 'Unable to add todo',
+  DELETE = 'Unable to delete todo',
+  UPDATE = 'Unable to update todo',
+  NOT_FOUND = 'Unable to found todo',
+  NONE = '',
+}
+
+export enum TaskStatus {
+  ALL = 'all',
+  ACTIVE = 'active',
+  COMPLETED = 'completed',
 }

@@ -1,12 +1,119 @@
 import GlobalStyle from "./styles/GlobalStyles.ts"
 import {Header} from "./components"
-import {FC} from "react"
+import {FC, useCallback, useMemo, useState} from "react"
 import {AddTodo} from "./components/AddTodo"
+import {useAppDispatch, useAppSelector} from "./services/hooks"
+import {ErrorType, Task, TaskStatus} from "./types.ts"
+import {ErrorNotification} from "./components/ErrorNotification"
+import {addTodo, deleteTodo, updateTodo} from "./services/features"
+import {getFilteredTodos} from "./utils/helpers.ts"
+import {Filter} from "./components/Filter"
+import {Wrapper} from "./App.styled.tsx"
+import {TodoList} from "./components/TodoList"
 
-export const App: FC = () =>
-  <>
+export const App: FC = () => {
+  const todos = useAppSelector( state => state.todos.todos )
+  const dispatch = useAppDispatch()
+  const [error, setError] = useState( ErrorType.NONE )
+  const [sortType, setSortType] = useState<TaskStatus>( TaskStatus.ALL )
+
+  const handleRemoveError = useCallback( () => {
+    setError( ErrorType.NONE )
+  }, [] )
+
+  const handleAddTodo = ( title: string ): void => {
+    if ( !title.trim() ) {
+      setError( ErrorType.EMPTY_TITLE )
+
+      return
+    }
+
+    try {
+      dispatch( addTodo( {title} ) )
+    } catch ( error ) {
+      setError( ErrorType.ADD )
+    }
+  }
+
+  const handleUpdateTodo = ( id: number, updatedData: Partial<Task> ): void => {
+    try {
+      const todoToUpdate = todos.find( todo => todo.id === id )
+      if ( todoToUpdate ) {
+        const updatedTodo: Task = {...todoToUpdate, ...updatedData}
+        dispatch( updateTodo( updatedTodo ) )
+      }
+
+    } catch ( error ) {
+      setError( ErrorType.UPDATE )
+    }
+  }
+
+  const activeTodosCount = useMemo( () =>
+    todos.filter( todo => !todo.completed ).length
+  , [todos] )
+
+  const filteredTodos = useMemo( () =>
+    getFilteredTodos( todos, sortType ),
+  [todos, sortType] )
+
+  const handleDeleteTodo = ( id: number ): void => {
+    try {
+      dispatch( deleteTodo( {id} ) )
+    } catch ( error ) {
+      setError( ErrorType.DELETE )
+    }
+  }
+
+  const activeTodos = getFilteredTodos( todos, TaskStatus.ACTIVE )
+  const completedTodos = getFilteredTodos( todos, TaskStatus.COMPLETED )
+
+  const changeStatusForAll = useCallback( () => {
+
+    activeTodos.map( ( { id } ) =>
+      handleUpdateTodo( id, { completed: true } ) )
+
+    if ( !activeTodos.length ) {
+
+      completedTodos.map( ( { id } ) =>
+        handleUpdateTodo( id, { completed: false } ) ,
+      )
+    }
+  }, [completedTodos, activeTodos] )
+
+  return <>
     <GlobalStyle/>
-    <Header/>
-    <AddTodo />
+    <Header todos={todos}/>
+    <Wrapper>
+      <AddTodo
+        todos={todos}
+        onAddTodo={handleAddTodo}
+        onChangeAllStatus={changeStatusForAll}
+        activeTodosCount={activeTodosCount}
+      />
+      <TodoList
+        todos={filteredTodos}
+        onUpdateTodo={handleUpdateTodo}
+        onDeleteTodo={handleDeleteTodo}
+      />
+      {
+        todos.length !== 0 && <Filter
+          onSetSortType={setSortType}
+          todos={todos}
+          sortType={sortType}
+          onDeleteTodo={handleDeleteTodo}
+          completedTodos={completedTodos}
+        />
+      }
+
+      {error
+        &&
+        <ErrorNotification
+          setError={setError}
+          error={error}
+          onRemoveError={handleRemoveError}
+        />
+      }
+    </Wrapper>
   </>
+}
 
