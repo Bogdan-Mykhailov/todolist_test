@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit"
 import { Todos } from "../../../types.ts"
 
 const initialState: Todos = {
-  todos: [],
+  todos: JSON.parse( localStorage.getItem( "todos" ) || "[]" ),
 }
 
 const todos = createSlice( {
@@ -22,6 +22,7 @@ const todos = createSlice( {
           completed: false,
         }
         state.todos.push( newTodo )
+        localStorage.setItem( "todos", JSON.stringify( state.todos ) )
       }
     },
     updateTodo: ( state, action ) => {
@@ -38,11 +39,13 @@ const todos = createSlice( {
         }
 
         state.todos[index] = updatedTodo
+        localStorage.setItem( "todos", JSON.stringify( state.todos ) )
       }
     },
     deleteTodo: ( state, action ) => {
       const { id } = action.payload
       state.todos = state.todos.filter( todo => todo.id !== id )
+      localStorage.setItem( "todos", JSON.stringify( state.todos ) )
     },
   }
 } )
