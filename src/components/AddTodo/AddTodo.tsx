@@ -1,7 +1,14 @@
-import {ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState} from "react"
-import {AddTodoWrapper, Button, Input} from "./AddTodo.styled.tsx"
+import {
+  ChangeEvent,
+  FC,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { AddTodoWrapper, Button, Input } from './AddTodo.styled.tsx'
 import arrowDown from '../../assets/chevron-down-solid.svg'
-import {useAppSelector} from "../../services"
+import { useAppSelector } from '../../services'
 
 interface Props {
   onAddTodo: ( query: string ) => void
@@ -9,8 +16,12 @@ interface Props {
   activeTodosCount: number
 }
 
-export const AddTodo: FC<Props> = ( {onAddTodo, onChangeAllStatus, activeTodosCount} ) => {
-  const todos = useAppSelector( state => state.todos.todos )
+export const AddTodo: FC<Props> = ( {
+  onAddTodo,
+  onChangeAllStatus,
+  activeTodosCount,
+} ) => {
+  const todos = useAppSelector( ( state ) => state.todos.todos )
   const [title, setTitle] = useState( '' )
   const inputRef = useRef<HTMLInputElement>( null )
 
@@ -33,9 +44,9 @@ export const AddTodo: FC<Props> = ( {onAddTodo, onChangeAllStatus, activeTodosCo
 
   return (
     <AddTodoWrapper>
-      {todos.length !== 0 &&
+      {todos.length > 0 &&
         <Button
-          className={!activeTodosCount ? 'completed' : ''}
+          className={activeTodosCount ? '' : 'completed'}
           src={arrowDown}
           alt='Arrow down'
           onClick={onChangeAllStatus}

@@ -64,6 +64,8 @@ This is a simple todo list application built with React and Redux Toolkit. It al
 
 This project was created by Bogdan Mykhailov.
 
+[![wemake-frontend-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-frontend-styleguide)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

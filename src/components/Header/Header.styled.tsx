@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const HeaderWrapper = styled.header`
     display: flex;
@@ -15,7 +15,6 @@ export const HeaderLogo = styled.img`
     height: 35px;
     cursor: pointer;
 `
-
 
 export const HeaderTitle = styled.h2`
     text-rendering: optimizeLegibility;

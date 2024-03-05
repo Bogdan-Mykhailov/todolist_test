@@ -1,6 +1,6 @@
-import {FC, useEffect} from 'react'
-import {ErrorType} from "../../types.ts"
-import {CloseButton, NotificationWrapper} from "./ErrorNotification.styled.tsx"
+import { FC, useEffect } from 'react'
+import { ErrorType } from '../../types.ts'
+import { CloseButton, NotificationWrapper } from './ErrorNotification.styled.tsx'
 
 interface NotificationProps {
   error: ErrorType
@@ -15,14 +15,13 @@ export const ErrorNotification: FC<NotificationProps> = ( {
 } ) => {
   useEffect(
     () => {
-      setTimeout( () =>
-        setError( ErrorType.NONE )
-      , 3000 )
+      setTimeout( () => setError( ErrorType.NONE )
+        , 3000 )
     }, [error],
   )
 
   return (
-    <NotificationWrapper isVisible={!!error}>
+    <NotificationWrapper isVisible={Boolean( error )}>
       <CloseButton
         type="button"
         aria-label="Close the notification"

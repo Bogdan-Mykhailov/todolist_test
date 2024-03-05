@@ -1,13 +1,25 @@
-import styled, { css } from "styled-components"
+import styled, { css, Interpolation } from 'styled-components'
+import { Substitute } from 'styled-components/dist/types'
+import { DetailedHTMLProps, HTMLAttributes } from 'react'
 
-export const NotificationWrapper = styled.div<{ isVisible: boolean }>`
+interface NotificationWrapperProps {
+  isVisible: boolean
+}
+
+type NotificationWrapperInterpolation = Interpolation<
+Substitute<
+DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+NotificationWrapperProps
+>
+>
+
+export const NotificationWrapper = styled.div<NotificationWrapperProps>`
   background-color: #f5c6cb;
   color: #721c24;
   border: 1px solid transparent;
   padding: .75rem 1.25rem;
   margin-bottom: 1rem;
-  ${( { isVisible } ) =>
-    !isVisible &&
+  ${( { isVisible } ): NotificationWrapperInterpolation => !isVisible &&
   css`
       display: none;
     `}

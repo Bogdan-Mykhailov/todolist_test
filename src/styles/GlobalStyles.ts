@@ -1,4 +1,4 @@
-import {createGlobalStyle, css} from 'styled-components'
+import { createGlobalStyle, css } from 'styled-components'
 import LexendLight from '../assets/fonts/lexend/LexendLight.ttf'
 
 const fontFaces = css`
@@ -19,7 +19,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;

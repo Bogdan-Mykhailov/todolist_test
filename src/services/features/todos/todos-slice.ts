@@ -1,33 +1,33 @@
-import {createSlice} from "@reduxjs/toolkit"
-import { Todos } from "../../../types.ts"
+import { createSlice } from '@reduxjs/toolkit'
+import { Todos } from '../../../types.ts'
 
 const initialState: Todos = {
-  todos: JSON.parse( localStorage.getItem( "todos" ) || "[]" ),
+  'todos': JSON.parse( localStorage.getItem( 'todos' ) || '[]' ),
 }
 
 const todos = createSlice( {
-  name: 'todos',
+  'name': 'todos',
   initialState,
-  reducers: {
-    addTodo: ( state, action ) => {
+  'reducers': {
+    'addTodo': ( state, action ) => {
       const { title } = action.payload
 
       if ( title ) {
-        const existingIds = state.todos.map( todo => todo.id )
+        const existingIds = state.todos.map( ( todo ) => todo.id )
         const newId = Math.max( ...existingIds, 0 ) + 1
 
         const newTodo = {
-          id: newId,
+          'id': newId,
           title,
-          completed: false,
+          'completed': false,
         }
         state.todos.push( newTodo )
-        localStorage.setItem( "todos", JSON.stringify( state.todos ) )
+        localStorage.setItem( 'todos', JSON.stringify( state.todos ) )
       }
     },
-    updateTodo: ( state, action ) => {
+    'updateTodo': ( state, action ) => {
       const { id, title, completed } = action.payload
-      const index = state.todos.findIndex( todo => todo.id === id )
+      const index = state.todos.findIndex( ( todo ) => todo.id === id )
 
       if ( index !== -1 ) {
         const updatedTodo = { ...state.todos[index] }
@@ -39,15 +39,15 @@ const todos = createSlice( {
         }
 
         state.todos[index] = updatedTodo
-        localStorage.setItem( "todos", JSON.stringify( state.todos ) )
+        localStorage.setItem( 'todos', JSON.stringify( state.todos ) )
       }
     },
-    deleteTodo: ( state, action ) => {
+    'deleteTodo': ( state, action ) => {
       const { id } = action.payload
-      state.todos = state.todos.filter( todo => todo.id !== id )
-      localStorage.setItem( "todos", JSON.stringify( state.todos ) )
+      state.todos = state.todos.filter( ( todo ) => todo.id !== id )
+      localStorage.setItem( 'todos', JSON.stringify( state.todos ) )
     },
-  }
+  },
 } )
 
 export const {

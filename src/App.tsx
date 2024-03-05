@@ -1,14 +1,26 @@
-import GlobalStyle from "./styles/GlobalStyles.ts"
-import {AddTodo, ErrorNotification, Filter, Header, TodoList} from "./components"
-import {FC, useCallback, useMemo, useState} from "react"
-import {ErrorType, Task, TaskStatus} from "./types.ts"
-import {getFilteredTodos} from "./utils/helpers.ts"
-import {Wrapper} from "./App.styled.tsx"
-import {addTodo, deleteTodo, updateTodo, useAppDispatch, useAppSelector} from "./services"
-import {MAX_LENGTH} from "./utils/constants.ts"
+import { FC, useCallback, useMemo, useState } from 'react'
+import { ErrorType, Task, TaskStatus } from './types.ts'
+import GlobalStyle from './styles/GlobalStyles.ts'
+import { getFilteredTodos } from './utils/helpers.ts'
+import { Wrapper } from './App.styled.tsx'
+import { MAX_LENGTH } from './utils/constants.ts'
+import {
+  AddTodo,
+  ErrorNotification,
+  Filter,
+  Header,
+  TodoList,
+} from './components'
+import {
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  useAppDispatch,
+  useAppSelector,
+} from './services'
 
 export const App: FC = () => {
-  const todos = useAppSelector( state => state.todos.todos )
+  const todos = useAppSelector( ( state ) => state.todos.todos )
   const dispatch = useAppDispatch()
   const [error, setError] = useState( ErrorType.NONE )
   const [sortType, setSortType] = useState<TaskStatus>( TaskStatus.ALL )
@@ -28,38 +40,37 @@ export const App: FC = () => {
       if ( title && title.length > MAX_LENGTH ) {
         setError( ErrorType.TITLE_LENGTH )
       } else {
-        dispatch( addTodo( {title} ) )
+        dispatch( addTodo( { title } ) )
       }
-    } catch ( error ) {
+    } catch {
       setError( ErrorType.ADD )
     }
   }
 
   const handleUpdateTodo = ( id: number, updatedData: Partial<Task> ): void => {
     try {
-      const todoToUpdate = todos.find( todo => todo.id === id )
+      const todoToUpdate = todos.find( ( todo ) => todo.id === id )
       if ( todoToUpdate ) {
         if ( updatedData.title && updatedData.title.length > MAX_LENGTH ) {
           setError( ErrorType.TITLE_LENGTH )
         } else {
-          const updatedTodo: Task = {...todoToUpdate, ...updatedData}
+          const updatedTodo: Task = { ...todoToUpdate, ...updatedData }
           dispatch( updateTodo( updatedTodo ) )
         }
       }
-
-    } catch ( error ) {
+    } catch {
       setError( ErrorType.UPDATE )
     }
   }
 
-  const activeTodosCount = useMemo( () =>
-    todos.filter( todo => !todo.completed ).length
+  const activeTodosCount = useMemo( () => todos
+    .filter( ( todo ) => !todo.completed ).length
   , [todos] )
 
   const handleDeleteTodo = ( id: number ): void => {
     try {
-      dispatch( deleteTodo( {id} ) )
-    } catch ( error ) {
+      dispatch( deleteTodo( { id } ) )
+    } catch {
       setError( ErrorType.DELETE )
     }
   }
@@ -68,15 +79,12 @@ export const App: FC = () => {
   const completedTodos = getFilteredTodos( todos, TaskStatus.COMPLETED )
 
   const changeStatusForAll = useCallback( () => {
+    activeTodos
+      .map( ( { id } ) => handleUpdateTodo( id, { 'completed': true } ) )
 
-    activeTodos.map( ( { id } ) =>
-      handleUpdateTodo( id, { completed: true } ) )
-
-    if ( !activeTodos.length ) {
-
-      completedTodos.map( ( { id } ) =>
-        handleUpdateTodo( id, { completed: false } ) ,
-      )
+    if ( activeTodos.length === 0 ) {
+      completedTodos
+        .map( ( { id } ) => handleUpdateTodo( id, { 'completed': false } ) )
     }
   }, [completedTodos, activeTodos] )
 
@@ -95,7 +103,7 @@ export const App: FC = () => {
         onDeleteTodo={handleDeleteTodo}
       />
       {
-        todos.length !== 0 && <Filter
+        todos.length > 0 && <Filter
           onSetSortType={setSortType}
           sortType={sortType}
           onDeleteTodo={handleDeleteTodo}
@@ -103,8 +111,7 @@ export const App: FC = () => {
         />
       }
 
-      {error
-        &&
+      {error &&
         <ErrorNotification
           setError={setError}
           error={error}
@@ -114,4 +121,3 @@ export const App: FC = () => {
     </Wrapper>
   </>
 }
-

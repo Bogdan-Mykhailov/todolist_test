@@ -1,13 +1,16 @@
 import logo from '../../assets/logo.png'
-import {HeaderLogo, HeaderTasksCount, HeaderTitle, HeaderWrapper} from "./Header.styled.tsx"
-import {FC} from "react"
-import {useAppSelector} from "../../services"
+import {
+  HeaderLogo,
+  HeaderTasksCount,
+  HeaderTitle,
+  HeaderWrapper,
+} from './Header.styled.tsx'
+import { FC } from 'react'
+import { useAppSelector } from '../../services'
 
 export const Header: FC = () => {
-  const todos = useAppSelector( state => state.todos.todos )
-  const finishedTodosCount = todos.reduce( ( count, todo ) => {
-    return todo.completed ? count + 1 : count
-  }, 0 )
+  const todos = useAppSelector( ( state ) => state.todos.todos )
+  const finishedTodosCount = todos.filter( ( todo ) => todo.completed ).length
 
   return (
     <HeaderWrapper>

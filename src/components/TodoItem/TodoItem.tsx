@@ -1,5 +1,13 @@
-import {ChangeEvent, FC, FormEvent, KeyboardEvent, useEffect, useRef, useState} from "react"
-import {Task} from "../../types.ts"
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import { Task } from '../../types.ts'
 import {
   Checkbox,
   Container,
@@ -8,8 +16,8 @@ import {
   RegularIcon,
   SolidIcon,
   TodoWrapper,
-  Xmark
-} from "./TodoItem.styled.tsx"
+  Xmark,
+} from './TodoItem.styled.tsx'
 import xmark from '../../assets/xmark-solid.svg'
 import regular from '../../assets/regular.svg'
 import solid from '../../assets/solid.svg'
@@ -20,8 +28,12 @@ interface Props {
   onDeleteTodo: ( id: number ) => void
 }
 
-export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) => {
-  const {id, title, completed} = todo
+export const TodoItem: FC<Props> = ( {
+  todo,
+  handleUpdateTodo,
+  onDeleteTodo,
+} ) => {
+  const { id, title, completed } = todo
   const [isEdit, setIsEdit] = useState( false )
   const [changeTitle, setChangeTitle] = useState( title )
   const inputRef = useRef<HTMLInputElement>( null )
@@ -34,7 +46,7 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
   }, [isEdit] )
 
   const handleIsCompletedChange = (): void => {
-    handleUpdateTodo( id, {completed: !completed} )
+    handleUpdateTodo( id, { 'completed': !completed } )
   }
 
   const handleTitleChange = ( event: ChangeEvent<HTMLInputElement> ): void => {
@@ -42,16 +54,16 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
   }
 
   const handleEditChange = (): void => {
-    setIsEdit( isEdit => !isEdit )
+    setIsEdit( ( prevState ) => !prevState )
   }
 
   const closeEditMode = ( event: KeyboardEvent<HTMLInputElement> ): void => {
     if ( event.key === 'Enter' ) {
-      if ( !changeTitle.trim() ) {
-        onDeleteTodo( id )
-      } else {
-        handleUpdateTodo( id, {title: changeTitle} )
+      if ( changeTitle.trim() ) {
+        handleUpdateTodo( id, { 'title': changeTitle } )
         setIsEdit( false )
+      } else {
+        onDeleteTodo( id )
       }
     }
   }
@@ -61,7 +73,7 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
     if ( !changeTitle.trim() ) {
       onDeleteTodo( id )
     } else if ( title !== changeTitle ) {
-      handleUpdateTodo( id, {title: changeTitle} )
+      handleUpdateTodo( id, { 'title': changeTitle } )
       setIsEdit( false )
     }
 
@@ -90,31 +102,29 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
           alt="Check box solid icon"
         />
       </Container>
-      {isEdit
-        ? <EditInput
-          onKeyUp={closeEditMode}
-          value={changeTitle}
-          onBlur={handleTitleUpdate}
-          onChange={handleTitleChange}
-          type="text"
-          placeholder='Empty todo will be deleted'
-          ref={inputRef}
-        />
-        : <>
-          <ListItem
-            className={completed ? 'completed' : ''}
-            onDoubleClick={handleEditChange}
-          >
-            {title}
-          </ListItem>
-          {isHovered &&
+      {isEdit ? <EditInput
+        onKeyUp={closeEditMode}
+        value={changeTitle}
+        onBlur={handleTitleUpdate}
+        onChange={handleTitleChange}
+        type="text"
+        placeholder='Empty todo will be deleted'
+        ref={inputRef}
+      /> : <>
+        <ListItem
+          className={completed ? 'completed' : ''}
+          onDoubleClick={handleEditChange}
+        >
+          {title}
+        </ListItem>
+        {isHovered &&
             <Xmark
               src={xmark}
               alt='Remove task'
               onClick={() => onDeleteTodo( id )}
             />
-          }
-        </>
+        }
+      </>
       }
     </TodoWrapper>
   )
