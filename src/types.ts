@@ -1,3 +1,5 @@
+import {MAX_LENGTH} from "./utils/constants.ts"
+
 export interface Todos {
   todos: Task[]
 }
@@ -13,8 +15,9 @@ export enum ErrorType {
   ADD = 'Unable to add todo',
   DELETE = 'Unable to delete todo',
   UPDATE = 'Unable to update todo',
-  NOT_FOUND = 'Unable to found todo',
+  // NOT_FOUND = 'Unable to found todo',
   NONE = '',
+  TITLE_LENGTH = `The todo title must be ${MAX_LENGTH} characters or less`,
 }
 
 export enum TaskStatus {

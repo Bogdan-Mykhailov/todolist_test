@@ -5,6 +5,7 @@ import {ErrorType, Task, TaskStatus} from "./types.ts"
 import {getFilteredTodos} from "./utils/helpers.ts"
 import {Wrapper} from "./App.styled.tsx"
 import {addTodo, deleteTodo, updateTodo, useAppDispatch, useAppSelector} from "./services"
+import {MAX_LENGTH} from "./utils/constants.ts"
 
 export const App: FC = () => {
   const todos = useAppSelector( state => state.todos.todos )
@@ -24,7 +25,11 @@ export const App: FC = () => {
     }
 
     try {
-      dispatch( addTodo( {title} ) )
+      if ( title && title.length > MAX_LENGTH ) {
+        setError( ErrorType.TITLE_LENGTH )
+      } else {
+        dispatch( addTodo( {title} ) )
+      }
     } catch ( error ) {
       setError( ErrorType.ADD )
     }
@@ -34,8 +39,12 @@ export const App: FC = () => {
     try {
       const todoToUpdate = todos.find( todo => todo.id === id )
       if ( todoToUpdate ) {
-        const updatedTodo: Task = {...todoToUpdate, ...updatedData}
-        dispatch( updateTodo( updatedTodo ) )
+        if ( updatedData.title && updatedData.title.length > MAX_LENGTH ) {
+          setError( ErrorType.TITLE_LENGTH )
+        } else {
+          const updatedTodo: Task = {...todoToUpdate, ...updatedData}
+          dispatch( updateTodo( updatedTodo ) )
+        }
       }
 
     } catch ( error ) {
