@@ -1,16 +1,16 @@
 import {ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState} from "react"
 import {AddTodoWrapper, Button, Input} from "./AddTodo.styled.tsx"
-import {Task} from "../../types.ts"
 import arrowDown from '../../assets/chevron-down-solid.svg'
+import {useAppSelector} from "../../services"
 
 interface Props {
-  todos: Task[]
   onAddTodo: ( query: string ) => void
   onChangeAllStatus: () => void
   activeTodosCount: number
 }
 
-export const AddTodo: FC<Props> = ( {todos, onAddTodo, onChangeAllStatus, activeTodosCount} ) => {
+export const AddTodo: FC<Props> = ( {onAddTodo, onChangeAllStatus, activeTodosCount} ) => {
+  const todos = useAppSelector( state => state.todos.todos )
   const [title, setTitle] = useState( '' )
   const inputRef = useRef<HTMLInputElement>( null )
 

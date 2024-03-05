@@ -47,10 +47,6 @@ export const App: FC = () => {
     todos.filter( todo => !todo.completed ).length
   , [todos] )
 
-  const filteredTodos = useMemo( () =>
-    getFilteredTodos( todos, sortType ),
-  [todos, sortType] )
-
   const handleDeleteTodo = ( id: number ): void => {
     try {
       dispatch( deleteTodo( {id} ) )
@@ -77,23 +73,21 @@ export const App: FC = () => {
 
   return <>
     <GlobalStyle/>
-    <Header todos={todos}/>
+    <Header/>
     <Wrapper>
       <AddTodo
-        todos={todos}
         onAddTodo={handleAddTodo}
         onChangeAllStatus={changeStatusForAll}
         activeTodosCount={activeTodosCount}
       />
       <TodoList
-        todos={filteredTodos}
+        sortType={sortType}
         onUpdateTodo={handleUpdateTodo}
         onDeleteTodo={handleDeleteTodo}
       />
       {
         todos.length !== 0 && <Filter
           onSetSortType={setSortType}
-          todos={todos}
           sortType={sortType}
           onDeleteTodo={handleDeleteTodo}
           activeTodosCount={activeTodosCount}

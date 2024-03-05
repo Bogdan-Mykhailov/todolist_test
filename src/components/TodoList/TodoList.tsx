@@ -1,18 +1,24 @@
-import {FC} from "react"
-import {Task} from "../../types.ts"
+import {FC, useMemo} from "react"
+import {Task, TaskStatus} from "../../types.ts"
 import {List} from "./TodoList.styled.tsx"
 import {TodoItem} from "../TodoItem"
+import {getFilteredTodos} from "../../utils/helpers.ts"
+import {useAppSelector} from "../../services"
 
 interface Props {
-  todos: Task[]
   onUpdateTodo: ( id: number, data: Partial<Task> ) => void
   onDeleteTodo: ( id: number ) => void
+  sortType: TaskStatus
 }
 
-export const TodoList: FC<Props> = ( { todos, onUpdateTodo, onDeleteTodo } ) => {
+export const TodoList: FC<Props> = ( { onUpdateTodo, onDeleteTodo, sortType } ) => {
+  const todos = useAppSelector( state => state.todos.todos )
+  const filteredTodos = useMemo( () =>
+    getFilteredTodos( todos, sortType ),
+  [todos, sortType] )
   return (
     <List>
-      {todos.map( ( todo ) =>
+      {filteredTodos.map( ( todo ) =>
         <TodoItem
           key={todo.id}
           todo={todo}

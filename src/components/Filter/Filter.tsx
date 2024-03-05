@@ -1,9 +1,9 @@
 import {FC} from "react"
-import {Task, TaskStatus} from "../../types.ts"
+import {TaskStatus} from "../../types.ts"
 import {Nav, Link, Button, FilterWrapper, ActiveTodosCounter} from './Filter.styled.tsx'
+import {useAppSelector} from "../../services"
 
 interface Props {
-  todos: Task[]
   sortType: TaskStatus
   onSetSortType: ( sortType: TaskStatus ) => void
   onDeleteTodo: ( id: number ) => void
@@ -11,12 +11,12 @@ interface Props {
 }
 
 export const Filter: FC<Props> = ( {
-  todos,
   sortType,
   onSetSortType,
   onDeleteTodo,
   activeTodosCount
 } ) => {
+  const todos = useAppSelector( state => state.todos.todos )
   const handleClearCompleted = (): void => {
     todos.forEach( ( { completed, id } ) => {
       return completed && onDeleteTodo( id )
