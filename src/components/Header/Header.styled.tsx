@@ -25,7 +25,7 @@ export const HeaderTitle = styled.h2`
     font-family: LexendLight, sans-serif;
 `
 
-export const HeaderTasksCount = styled.h2`
+export const HeaderTasksCount = styled.span`
     font-size: 18px;
     font-family: LexendLight, sans-serif;
     color: #4d4d4d;

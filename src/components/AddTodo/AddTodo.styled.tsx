@@ -29,4 +29,8 @@ export const Input = styled.input`
     padding: 16px 16px 16px 60px;
     width: 100%;
     box-sizing: border-box;
+    
+    &::placeholder {
+        font-style: italic;
+    }
 `
