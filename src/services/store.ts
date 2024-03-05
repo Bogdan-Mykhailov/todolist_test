@@ -1,10 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit"
-import {appSlice, todosSlice} from "./features"
+import {todosSlice} from "./features"
 
 
 export const store = configureStore( {
   reducer: {
-    app: appSlice,
     todos: todosSlice,
   }
 } )

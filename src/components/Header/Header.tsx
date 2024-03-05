@@ -1,6 +1,6 @@
 import logo from '../../assets/logo.png'
 import {HeaderLogo, HeaderTasksCount, HeaderTitle, HeaderWrapper} from "./Header.styled.tsx"
-import { FC } from "react"
+import {FC} from "react"
 import {Task} from "../../types.ts"
 
 interface Props {
@@ -16,7 +16,7 @@ export const Header: FC<Props> = ( {todos} ) => {
   return (
     <HeaderWrapper>
       <HeaderLogo src={logo} alt="Main logo"/>
-      <HeaderTitle>My TODO's</HeaderTitle>
+      <HeaderTitle>TODOS</HeaderTitle>
       <HeaderTasksCount>Done: {finishedTodosCount}</HeaderTasksCount>
     </HeaderWrapper>
   )

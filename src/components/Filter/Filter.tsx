@@ -1,13 +1,13 @@
 import {FC} from "react"
 import {Task, TaskStatus} from "../../types.ts"
-import {Nav, Link, Button, FilterWrapper} from './Filter.styled.tsx'
+import {Nav, Link, Button, FilterWrapper, ActiveTodosCounter} from './Filter.styled.tsx'
 
 interface Props {
   todos: Task[]
   sortType: TaskStatus
   onSetSortType: ( sortType: TaskStatus ) => void
   onDeleteTodo: ( id: number ) => void
-  completedTodos: Task[]
+  activeTodosCount: number
 }
 
 export const Filter: FC<Props> = ( {
@@ -15,14 +15,24 @@ export const Filter: FC<Props> = ( {
   sortType,
   onSetSortType,
   onDeleteTodo,
+  activeTodosCount
 } ) => {
   const handleClearCompleted = (): void => {
     todos.forEach( ( { completed, id } ) => {
       return completed && onDeleteTodo( id )
     } )
   }
+
+  const correctTitle = `${activeTodosCount} ${
+    activeTodosCount === 1
+      ? 'item'
+      : 'items'} left`
+
   return (
     <FilterWrapper>
+      <ActiveTodosCounter>
+        {correctTitle}
+      </ActiveTodosCounter>
       <Nav>
         <Link
           href={`#/${TaskStatus.ALL}`}

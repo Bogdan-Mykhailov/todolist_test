@@ -1,15 +1,10 @@
 import GlobalStyle from "./styles/GlobalStyles.ts"
-import {Header} from "./components"
+import {AddTodo, ErrorNotification, Filter, Header, TodoList} from "./components"
 import {FC, useCallback, useMemo, useState} from "react"
-import {AddTodo} from "./components/AddTodo"
-import {useAppDispatch, useAppSelector} from "./services/hooks"
 import {ErrorType, Task, TaskStatus} from "./types.ts"
-import {ErrorNotification} from "./components/ErrorNotification"
-import {addTodo, deleteTodo, updateTodo} from "./services/features"
 import {getFilteredTodos} from "./utils/helpers.ts"
-import {Filter} from "./components/Filter"
 import {Wrapper} from "./App.styled.tsx"
-import {TodoList} from "./components/TodoList"
+import {addTodo, deleteTodo, updateTodo, useAppDispatch, useAppSelector} from "./services"
 
 export const App: FC = () => {
   const todos = useAppSelector( state => state.todos.todos )
@@ -101,7 +96,7 @@ export const App: FC = () => {
           todos={todos}
           sortType={sortType}
           onDeleteTodo={handleDeleteTodo}
-          completedTodos={completedTodos}
+          activeTodosCount={activeTodosCount}
         />
       }
 

@@ -1,7 +1,18 @@
 import {ChangeEvent, FC, FormEvent, KeyboardEvent, useEffect, useRef, useState} from "react"
 import {Task} from "../../types.ts"
-import {TodoWrapper, Xmark} from "./TodoItem.styled.tsx"
+import {
+  Checkbox,
+  Container,
+  EditInput,
+  ListItem,
+  RegularIcon,
+  SolidIcon,
+  TodoWrapper,
+  Xmark
+} from "./TodoItem.styled.tsx"
 import xmark from '../../assets/xmark-solid.svg'
+import regular from '../../assets/regular.svg'
+import solid from '../../assets/solid.svg'
 
 interface Props {
   todo: Task
@@ -62,13 +73,25 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
       onMouseEnter={() => setIsHovered( true )}
       onMouseLeave={() => setIsHovered( false )}
     >
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={handleIsCompletedChange}
-      />
+      <Container>
+        <Checkbox
+          type="checkbox"
+          checked={completed}
+          onChange={handleIsCompletedChange}
+        />
+        <RegularIcon
+          className={completed ? 'completed' : ''}
+          src={regular}
+          alt="Check box regular icon"
+        />
+        <SolidIcon
+          className={completed ? 'completed' : ''}
+          src={solid}
+          alt="Check box solid icon"
+        />
+      </Container>
       {isEdit
-        ? <input
+        ? <EditInput
           onKeyUp={closeEditMode}
           value={changeTitle}
           onBlur={handleTitleUpdate}
@@ -78,8 +101,19 @@ export const TodoItem: FC<Props> = ( {todo, handleUpdateTodo, onDeleteTodo} ) =>
           ref={inputRef}
         />
         : <>
-          <span onDoubleClick={handleEditChange}>{title}</span>
-          { isHovered && <Xmark src={xmark} alt='Remove task' onClick={() => onDeleteTodo( id )}/>}
+          <ListItem
+            className={completed ? 'completed' : ''}
+            onDoubleClick={handleEditChange}
+          >
+            {title}
+          </ListItem>
+          {isHovered &&
+            <Xmark
+              src={xmark}
+              alt='Remove task'
+              onClick={() => onDeleteTodo( id )}
+            />
+          }
         </>
       }
     </TodoWrapper>

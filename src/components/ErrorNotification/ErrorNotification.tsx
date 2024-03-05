@@ -1,6 +1,6 @@
 import {FC, useEffect} from 'react'
-import classNames from 'classnames'
 import {ErrorType} from "../../types.ts"
+import {CloseButton, NotificationWrapper} from "./ErrorNotification.styled.tsx"
 
 interface NotificationProps {
   error: ErrorType
@@ -22,18 +22,15 @@ export const ErrorNotification: FC<NotificationProps> = ( {
   )
 
   return (
-    <div className={classNames(
-      'notification is-danger is-light has-text-weight-normal',
-      {hidden: !error},
-    )}
-    >
-      <button
+    <NotificationWrapper isVisible={!!error}>
+      <CloseButton
         type="button"
-        className="delete"
-        aria-label="close the notification"
+        aria-label="Close the notification"
         onClick={onRemoveError}
-      />
+      >
+        &times;
+      </CloseButton>
       {error}
-    </div>
+    </NotificationWrapper>
   )
 }
