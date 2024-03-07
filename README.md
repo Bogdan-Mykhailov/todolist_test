@@ -14,7 +14,7 @@ This is a simple todo list application built with React and Redux Toolkit. It al
 
 ## Features
 
-- Add new todo items
+- Add new todo items (max title length 30 symbols)
 
 <img width="2039" alt="Screenshot 2024-03-05 at 12 24 10" src="https://github.com/Bogdan-Mykhailov/todolist_test/assets/91826635/81faee1b-321f-4276-bfe5-8ecc1a4b571c">
 
