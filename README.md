@@ -6,6 +6,10 @@
 
 <p></p>
 
+[![wemake-frontend-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-frontend-styleguide)
+
+<p></p>
+
 This is a simple todo list application built with React and Redux Toolkit. It allows users to add, update, and delete todo items, as well as filter them based on their completion status.
 
 ## Features
@@ -63,8 +67,6 @@ This is a simple todo list application built with React and Redux Toolkit. It al
 ## Credits
 
 This project was created by Bogdan Mykhailov.
-
-[![wemake-frontend-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-frontend-styleguide)
 
 ## License
 
