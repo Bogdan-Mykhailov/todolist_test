@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo, useState } from 'react'
 import { ErrorType, Task, TaskStatus } from './types.ts'
 import GlobalStyle from './styles/GlobalStyles.ts'
 import { getFilteredTodos } from './utils/helpers.ts'
-import { Wrapper } from './App.styled.tsx'
+import { Container, Wrapper } from './App.styled.tsx'
 import { MAX_LENGTH } from './utils/constants.ts'
 import {
   AddTodo,
@@ -91,33 +91,35 @@ export const App: FC = () => {
   return <>
     <GlobalStyle/>
     <Header/>
-    <Wrapper>
-      <AddTodo
-        onAddTodo={handleAddTodo}
-        onChangeAllStatus={changeStatusForAll}
-        activeTodosCount={activeTodosCount}
-      />
-      <TodoList
-        sortType={sortType}
-        onUpdateTodo={handleUpdateTodo}
-        onDeleteTodo={handleDeleteTodo}
-      />
-      {
-        todos.length > 0 && <Filter
-          onSetSortType={setSortType}
-          sortType={sortType}
-          onDeleteTodo={handleDeleteTodo}
+    <Container>
+      <Wrapper>
+        <AddTodo
+          onAddTodo={handleAddTodo}
+          onChangeAllStatus={changeStatusForAll}
           activeTodosCount={activeTodosCount}
         />
-      }
-
-      {error &&
-        <ErrorNotification
-          setError={setError}
-          error={error}
-          onRemoveError={handleRemoveError}
+        <TodoList
+          sortType={sortType}
+          onUpdateTodo={handleUpdateTodo}
+          onDeleteTodo={handleDeleteTodo}
         />
-      }
-    </Wrapper>
+        {
+          todos.length > 0 && <Filter
+            onSetSortType={setSortType}
+            sortType={sortType}
+            onDeleteTodo={handleDeleteTodo}
+            activeTodosCount={activeTodosCount}
+          />
+        }
+
+        {error &&
+          <ErrorNotification
+            setError={setError}
+            error={error}
+            onRemoveError={handleRemoveError}
+          />
+        }
+      </Wrapper>
+    </Container>
   </>
 }
