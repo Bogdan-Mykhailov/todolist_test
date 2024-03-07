@@ -50,7 +50,7 @@ This is a simple todo list application built with React and Redux Toolkit. It al
 
   ```npm start```
 
-4. Open your browser and navigate to [http://localhost:3000](http://localhost:5173) to view the app.
+4. Open your browser and navigate to http://localhost:5173 to view the app.
 
 ## Usage
 
